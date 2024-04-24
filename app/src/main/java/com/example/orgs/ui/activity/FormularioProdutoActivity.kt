@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import com.example.orgs.R
 import com.example.orgs.dao.ProdutosDao
 import com.example.orgs.databinding.ActivityFormularioProdutoBinding
@@ -15,20 +16,26 @@ class FormularioProdutoActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityFormularioProdutoBinding.inflate(layoutInflater)
     }
-       override fun onCreate(savedInstanceState: Bundle?) {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         configuraBotaoSalvar()
+        binding.activityFormularioProdutoImagem.setOnClickListener {
+            AlertDialog.Builder(this).setView(R.layout.formulario_imagem)
+                .setPositiveButton("Confirmar") { _, _ -> }
+                .setNegativeButton("Cancelar") { _, _ -> }.show()
+        }
 
     }
 
     private fun configuraBotaoSalvar() {
         val botaoSalvar = binding.activityFormularioProdutoBotaoSalvar
         botaoSalvar.setOnClickListener(View.OnClickListener {
-           val produtoNovo = criaProduto()
-           val dao = ProdutosDao()
-           dao.add(produtoNovo)
-           finish()
+            val produtoNovo = criaProduto()
+            val dao = ProdutosDao()
+            dao.add(produtoNovo)
+            finish()
         })
     }
 
